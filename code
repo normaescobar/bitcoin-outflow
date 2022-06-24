@@ -1,0 +1,38 @@
+query ($network: BitcoinNetwork!, $address: String!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+  bitcoin(network: $network) {
+    inputs(
+      date: {since: $from, till: $till}
+      inputAddress: {is: $address}
+      options: {desc: ["block.height", "transaction.index"], limit: $limit, offset: $offset}
+    ) {
+      block {
+        height
+        timestamp {
+          time(format: "%Y-%m-%d %H:%M:%S")
+        }
+      }
+      outputTransaction {
+        hash
+        index
+      }
+      transaction {
+        hash
+        index
+      }
+      inputIndex
+      value
+    }
+  }
+}
+
+//Insert data here
+
+{
+  "limit": 10,
+  "offset": 0,
+  "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
+  "network": "bitcoin",
+  "from": "2021-01-01",
+  "till": "2022-06-24T23:59:59",
+  "dateFormat": "%Y-%m"
+}
